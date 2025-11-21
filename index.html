@@ -102,6 +102,7 @@
             overflow: hidden;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
         }
         
         .news-card:hover {
@@ -157,6 +158,138 @@
             background-color: #38b2ac;
         }
         
+        /* Share Modal Styles */
+        .share-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .share-modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .share-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .share-modal-title {
+            font-size: 1.5rem;
+            color: #1a365d;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+        
+        .share-options {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 1.5rem;
+        }
+        
+        .share-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .share-option:hover {
+            transform: scale(1.1);
+        }
+        
+        .share-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+            color: white;
+        }
+        
+        .facebook {
+            background-color: #3b5998;
+        }
+        
+        .twitter {
+            background-color: #1da1f2;
+        }
+        
+        .linkedin {
+            background-color: #0077b5;
+        }
+        
+        .whatsapp {
+            background-color: #25d366;
+        }
+        
+        .link-copy {
+            display: flex;
+            margin-top: 1rem;
+        }
+        
+        .link-input {
+            flex-grow: 1;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px 0 0 4px;
+        }
+        
+        .copy-btn {
+            background-color: #4fd1c5;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+        }
+        
+        .copy-btn:hover {
+            background-color: #38b2ac;
+        }
+        
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 1001;
+        }
+        
+        .toast.show {
+            opacity: 1;
+        }
+        
         footer {
             background-color: #1a365d;
             color: white;
@@ -203,6 +336,11 @@
             .hero p {
                 font-size: 1rem;
             }
+            
+            .share-options {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
         }
     </style>
 </head>
@@ -243,7 +381,7 @@
                         <span>June 15, 2023</span>
                         <span>Tech News</span>
                     </div>
-                    <button class="share-btn">
+                    <button class="share-btn" data-title="New AI Technology Revolutionizes Healthcare" data-url="https://newsdaily.com/ai-healthcare-revolution">
                         <i class="fas fa-share-alt"></i> Share
                     </button>
                 </div>
@@ -259,7 +397,7 @@
                         <span>June 14, 2023</span>
                         <span>Environment</span>
                     </div>
-                    <button class="share-btn">
+                    <button class="share-btn" data-title="Global Leaders Agree on New Climate Change Measures" data-url="https://newsdaily.com/climate-change-agreement">
                         <i class="fas fa-share-alt"></i> Share
                     </button>
                 </div>
@@ -275,13 +413,56 @@
                         <span>June 13, 2023</span>
                         <span>Sports</span>
                     </div>
-                    <button class="share-btn">
+                    <button class="share-btn" data-title="Underdog Team Wins Championship in Stunning Upset" data-url="https://newsdaily.com/underdog-championship-win">
                         <i class="fas fa-share-alt"></i> Share
                     </button>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Share Modal -->
+    <div class="share-modal" id="shareModal">
+        <div class="share-modal-content">
+            <div class="share-modal-header">
+                <h2 class="share-modal-title">Share This Article</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="share-options">
+                <div class="share-option" data-platform="facebook">
+                    <div class="share-icon facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </div>
+                    <span>Facebook</span>
+                </div>
+                <div class="share-option" data-platform="twitter">
+                    <div class="share-icon twitter">
+                        <i class="fab fa-twitter"></i>
+                    </div>
+                    <span>Twitter</span>
+                </div>
+                <div class="share-option" data-platform="linkedin">
+                    <div class="share-icon linkedin">
+                        <i class="fab fa-linkedin-in"></i>
+                    </div>
+                    <span>LinkedIn</span>
+                </div>
+                <div class="share-option" data-platform="whatsapp">
+                    <div class="share-icon whatsapp">
+                        <i class="fab fa-whatsapp"></i>
+                    </div>
+                    <span>WhatsApp</span>
+                </div>
+            </div>
+            <div class="link-copy">
+                <input type="text" class="link-input" id="shareLink" readonly>
+                <button class="copy-btn" id="copyLink">Copy</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
 
     <footer>
         <div class="container">
@@ -296,14 +477,100 @@
     </footer>
 
     <script>
-        // Simple share button functionality
-        document.querySelectorAll('.share-btn').forEach(button => {
+        // Share functionality
+        const shareButtons = document.querySelectorAll('.share-btn');
+        const shareModal = document.getElementById('shareModal');
+        const closeModal = document.querySelector('.close-modal');
+        const shareOptions = document.querySelectorAll('.share-option');
+        const shareLinkInput = document.getElementById('shareLink');
+        const copyLinkBtn = document.getElementById('copyLink');
+        const toast = document.getElementById('toast');
+        
+        let currentArticle = {};
+        
+        // Open share modal
+        shareButtons.forEach(button => {
             button.addEventListener('click', function() {
-                const card = this.closest('.news-card');
-                const title = card.querySelector('.card-title').textContent;
-                alert(`Sharing: "${title}"\n\nShare functionality would typically open a dialog to share via social media or copy link.`);
+                currentArticle = {
+                    title: this.getAttribute('data-title'),
+                    url: this.getAttribute('data-url')
+                };
+                
+                shareLinkInput.value = currentArticle.url;
+                shareModal.style.display = 'flex';
             });
         });
+        
+        // Close modal
+        closeModal.addEventListener('click', function() {
+            shareModal.style.display = 'none';
+        });
+        
+        // Close modal when clicking outside
+        window.addEventListener('click', function(event) {
+            if (event.target === shareModal) {
+                shareModal.style.display = 'none';
+            }
+        });
+        
+        // Share via social media
+        shareOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                const platform = this.getAttribute('data-platform');
+                let shareUrl = '';
+                
+                switch(platform) {
+                    case 'facebook':
+                        shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentArticle.url)}`;
+                        break;
+                    case 'twitter':
+                        shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(currentArticle.title)}&url=${encodeURIComponent(currentArticle.url)}`;
+                        break;
+                    case 'linkedin':
+                        shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(currentArticle.url)}`;
+                        break;
+                    case 'whatsapp':
+                        shareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(currentArticle.title + ' ' + currentArticle.url)}`;
+                        break;
+                }
+                
+                // Open share window
+                window.open(shareUrl, '_blank', 'width=600,height=400');
+            });
+        });
+        
+        // Copy link to clipboard
+        copyLinkBtn.addEventListener('click', function() {
+            shareLinkInput.select();
+            document.execCommand('copy');
+            
+            // Show toast notification
+            showToast('Link copied to clipboard!');
+        });
+        
+        // Show toast notification
+        function showToast(message) {
+            toast.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+        
+        // Fallback for browsers that don't support execCommand
+        if (!document.execCommand) {
+            copyLinkBtn.addEventListener('click', function() {
+                navigator.clipboard.writeText(shareLinkInput.value)
+                    .then(() => {
+                        showToast('Link copied to clipboard!');
+                    })
+                    .catch(err => {
+                        console.error('Failed to copy: ', err);
+                        showToast('Failed to copy link');
+                    });
+            });
+        }
     </script>
 </body>
 </html>
