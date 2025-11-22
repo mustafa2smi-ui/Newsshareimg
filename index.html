@@ -1,6 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Open Graph Tags -->
+<meta property="og:title" content="NewsDaily - Latest News">
+<meta property="og:description" content="Your trusted source for breaking news and compelling stories">
+<meta property="og:image" content="https://images.unsplash.com/photo-1585829365295-ab7cd400c167?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80">
+<meta property="og:url" content="https://yourwebsite.com">
+<meta property="og:type" content="website">
+
+<!-- Twitter Card Tags -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="NewsDaily - Latest News">
+<meta name="twitter:description" content="Your trusted source for breaking news and compelling stories">
+<meta name="twitter:image" content="https://images.unsplash.com/photo-1585829365295-ab7cd400c167?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80">
+<meta name="twitter:site" content="@newsdaily">
+
+<!-- Additional Important Tags -->
+<meta name="description" content="Your trusted source for breaking news and compelling stories">
+    <!-- Open Graph Meta Tags for Social Sharing -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="NewsDaily">
+
+<!-- For each article, you'll need to dynamically update these tags -->
+<!-- Here's a JavaScript solution to handle multiple articles -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "NewsArticle",
+  "headline": "Default News Headline",
+  "image": "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
+  "datePublished": "2023-06-15T08:00:00+08:00",
+  "dateModified": "2023-06-15T09:00:00+08:00",
+  "author": {
+    "@type": "Organization",
+    "name": "NewsDaily"
+  }
+}
+</script>
+
+<script>
+// Function to update Open Graph tags when sharing
+function updateOpenGraphTags(articleData) {
+    // Update meta tags
+    document.querySelector('meta[property="og:title"]').setAttribute('content', articleData.title);
+    document.querySelector('meta[property="og:description"]').setAttribute('content', articleData.description);
+    document.querySelector('meta[property="og:image"]').setAttribute('content', articleData.image);
+    document.querySelector('meta[property="og:url"]').setAttribute('content', articleData.url);
+    
+    // Update Twitter Card tags
+    document.querySelector('meta[name="twitter:title"]').setAttribute('content', articleData.title);
+    document.querySelector('meta[name="twitter:description"]').setAttribute('content', articleData.description);
+    document.querySelector('meta[name="twitter:image"]').setAttribute('content', articleData.image);
+}
+
+// Update share buttons to modify OG tags before sharing
+shareButtons.forEach(button => {
+    button.addEventListener('click', function() {
+        const articleData = {
+            title: this.getAttribute('data-title'),
+            url: this.getAttribute('data-url'),
+            image: this.getAttribute('data-image'),
+            description: this.getAttribute('data-description')
+        };
+        
+        // Update Open Graph tags
+        updateOpenGraphTags(articleData);
+        
+        // Continue with your existing share modal logic
+        currentArticle = articleData;
+        shareLinkInput.value = currentArticle.url;
+        shareModal.style.display = 'flex';
+    });
+});
+</script>
+   
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>News Daily</title>
